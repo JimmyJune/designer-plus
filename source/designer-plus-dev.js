@@ -1,6 +1,5 @@
 /*!
- * Waves Designer+ 3.2
- * http://Wavesdesign.ca/projects/fontfriend
+ * Waves Designer+ 0.1
  *
  * Copyright (c) 2012 Danny Casady
  * Licensed under the MIT license
@@ -22,7 +21,7 @@
 	// moving along
 	var $, body, jqInterval,
 	undef = 'undefined',
-	fontFriend = {
+	designerPlus = {
 		version: "%version%",
 		// style info
 		css: "%css%",
@@ -70,10 +69,10 @@
 		}
 
 		body = $("body");
-		$("head").append('<style id="designer-plus-stylesheet" type="text/css" media="screen">'+fontFriend.css+'</style>');
+		$("head").append('<style id="designer-plus-stylesheet" type="text/css" media="screen">'+designerPlus.css+'</style>');
 		body.append("<div id='designer-plus'></div>");
-		$("#designer-plus").html(fontFriend.html).addClass("open");
-		$("#ff-credit").append("<span> "+fontFriend.version+"</span>");
+		$("#designer-plus").html(designerPlus.html).addClass("open");
+		$("#ff-credit").append("<span> "+designerPlus.version+"</span>");
 
 		addBehaviours();
 		customFamilyDefinitionsCheck();
@@ -91,11 +90,11 @@
 		success = function(data){
 			if ( data.kind === "webfonts#webfontList") {
 				$.each(data.items, function(index, value) {
-					if ( $.inArray(value.family, fontFriend.existingGoogleFamilies) !== -1 ) {
+					if ( $.inArray(value.family, designerPlus.existingGoogleFamilies) !== -1 ) {
 						value.family = '✓ '+value.family;
 					}
 					else {
-						fontFriend.googleFamilies[value.family] = value.variants;
+						designerPlus.googleFamilies[value.family] = value.variants;
 					}
 					gFontList.push(value.family);
 				});
@@ -138,11 +137,11 @@
 			base = "http://fonts.googleapis.com/css?family=",
 			suffix, url;
 
-			if ( val === '0' || ! fontFriend.googleFamilies[val] ) {
+			if ( val === '0' || ! designerPlus.googleFamilies[val] ) {
 				return;
 			}
 
-			suffix = ':' + fontFriend.googleFamilies[val].join(',');
+			suffix = ':' + designerPlus.googleFamilies[val].join(',');
 			url = base + apiName + suffix;
 
 			$('<link rel="stylesheet" type="text/css" href="'+url+'" >').appendTo("head");
@@ -151,7 +150,7 @@
 			$("#ff-font-family-custom").find("li:last").click();
 			
 			// so we don't add it again later
-			delete fontFriend.googleFamilies[val];
+			delete designerPlus.googleFamilies[val];
 	}
 
 	function maybeAddEmbeddedFonts() {
@@ -192,39 +191,39 @@
 
 	function customFamilyDefinitionsCheck() {
 		/**
-		 * We can define a custom family list with the fontFriendFamilies JS array/object
+		 * We can define a custom family list with the designerPlusFamilies JS array/object
 		 * or with the data-ff-families attribute on the <body> element (comma separated).
 		 *
 		 */
-		if ( typeof(fontFriendFamilies) !== undef ) {
-			fontFriend.customFamilies = fontFriendFamilies;
+		if ( typeof(designerPlusFamilies) !== undef ) {
+			designerPlus.customFamilies = designerPlusFamilies;
 			// not an array. It must be an object
-			if ( ! $.isArray(fontFriend.customFamilies)) {
+			if ( ! $.isArray(designerPlus.customFamilies)) {
 				var fffTemp = [];
-				$.each( fontFriend.customFamilies, function(index, value) {
+				$.each( designerPlus.customFamilies, function(index, value) {
 					fffTemp.push(index);
 				});
-				fontFriend.customFamilies = fffTemp;
-				fontFriend.customFamilyMap = fontFriendFamilies;
+				designerPlus.customFamilies = fffTemp;
+				designerPlus.customFamilyMap = designerPlusFamilies;
 			}
 		}
 		else if ( body.attr("data-ff-families") ) {
-			fontFriend.customFamilies = body.attr("data-ff-families").split(',');
+			designerPlus.customFamilies = body.attr("data-ff-families").split(',');
 		}
 	}
 
 	function webfontSpecimenCheck() {
 		// on Web Font Specimen?
-		fontFriend.wfs = ( window.location.href == "http://webfontspecimen.com/demo/" );
-		fontFriend.wfsName = ( fontFriend.wfs ) ? $("h1, .bodysize tr:first-child th:first-child") : false;
+		designerPlus.wfs = ( window.location.href == "http://webfontspecimen.com/demo/" );
+		designerPlus.wfsName = ( designerPlus.wfs ) ? $("h1, .bodysize tr:first-child th:first-child") : false;
 		// or, on Waves Web Font Specimen?
-		if ( ! fontFriend.wfs && $("body").attr("id") == 'Waves-web-font-specimen' ) {
-			fontFriend.wfs = true;
-			fontFriend.wfsName = $("h1, .bodysize tr:first-child th.base");
+		if ( ! designerPlus.wfs && $("body").attr("id") == 'Waves-web-font-specimen' ) {
+			designerPlus.wfs = true;
+			designerPlus.wfsName = $("h1, .bodysize tr:first-child th.base");
 		}
-		if ( fontFriend.wfs ) {
-			fontFriend.wfsOriginalName = $("h1").text();
-			fontFriend.wfsTitle = $("title").text();
+		if ( designerPlus.wfs ) {
+			designerPlus.wfsOriginalName = $("h1").text();
+			designerPlus.wfsTitle = $("title").text();
 		}
 	}
 
@@ -281,7 +280,7 @@
 		});
 		if ( families.length > 0 ) {
 			addCustomFontList(families, 'www.google.com');
-			fontFriend.existingGoogleFamilies = families;
+			designerPlus.existingGoogleFamilies = families;
 		}
 	}
 
@@ -319,7 +318,7 @@
 		if( ! data.errors ) {
 			var fontList = [];
 			$.each(data.kit.families, function(i,family){
-				fontFriend.customFamilyMap[family.name] = family.css_names.join(',');
+				designerPlus.customFamilyMap[family.name] = family.css_names.join(',');
 				fontList.push(family.name);
 			});
 			addCustomFontList(fontList, "typekit.com");
@@ -395,31 +394,31 @@
 	}
 
 	// Do we have a custom family list?
-	if ( fontFriend.customFamilies ) {
-		addCustomFontList(fontFriend.customFamilies);
+	if ( designerPlus.customFamilies ) {
+		addCustomFontList(designerPlus.customFamilies);
 	}
 
 	function changeFontName(name) {
 		// not webfont specimen? leave.
-		if ( ! fontFriend.wfs )
+		if ( ! designerPlus.wfs )
 			return false;
 
 		// empty call = reset
 		if ( ! name ) {
-			fontFriend.wfsName.text(fontFriend.wfsOriginalName);
-			$("title").text(fontFriend.wfsTitle);
+			designerPlus.wfsName.text(designerPlus.wfsOriginalName);
+			$("title").text(designerPlus.wfsTitle);
 		}
 		else {
-			fontFriend.wfsName.text(name);
-			$("title").text( fontFriend.wfsTitle.replace('Font name', name) );
+			designerPlus.wfsName.text(name);
+			$("title").text( designerPlus.wfsTitle.replace('Font name', name) );
 		}
 	}
 
 
 	function maybeFontStack(fontFamily) {
 		// is it in our map?
-		if ( typeof(fontFriend.customFamilyMap[fontFamily]) !== undef ) {
-			fontFamily = fontFriend.customFamilyMap[fontFamily];
+		if ( typeof(designerPlus.customFamilyMap[fontFamily]) !== undef ) {
+			fontFamily = designerPlus.customFamilyMap[fontFamily];
 		}
 		// add monospace as a fallback in the stack
 		return fontFamily + ",monospace";
@@ -532,14 +531,14 @@
 		// reuse later
 		var ff = $("#designer-plus");
 
-		fontFriend.width = ff.outerWidth();
-		fontFriend.height = ff.outerHeight();
+		designerPlus.width = ff.outerWidth();
+		designerPlus.height = ff.outerHeight();
 
 		// open and close animations
 		$("#ff-toggle").toggle(function() {
 			ff.removeClass("open").animate({height:16, width:16},100);
 		}, function() {
-			ff.addClass("open").animate({height:fontFriend.height, width:fontFriend.width},100);
+			ff.addClass("open").animate({height:designerPlus.height, width:designerPlus.width},100);
 		});
 
 		// the main attraction: change that font

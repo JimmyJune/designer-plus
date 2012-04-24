@@ -1,6 +1,5 @@
 /*!
- * Waves Designer+ 3.2
- * http://Wavesdesign.ca/projects/fontfriend
+ * Waves Designer+ 0.1
  *
  * Copyright (c) 2012 Danny Casady
  * Licensed under the MIT license
@@ -22,7 +21,7 @@
 	// moving along
 	var $, body, jqInterval,
 	undef = 'undefined',
-	fontFriend = {
+	designerPlus = {
 		version: "0.1",
 		// style info
 		css: "#designer-plus{overflow:hidden;position:fixed;bottom:0;left:30px;background-color:#fff;background-color:rgba(255,255,255,0.93);width:740px;color:#222;-webkit-box-shadow:1px 1px 5px rgba(0,0,0,.3);-moz-box-shadow:1px 1px 5px rgba(0,0,0,.3);box-shadow:1px 1px 5px rgba(0,0,0,.3);z-index:10000;text-align:left;height:400px}#designer-plus,#ff-drop h6,#ff-drop li{line-height:1.5!important}#ff-drop{padding:12px 12px 12px 36px}#ff-toggle{background-color:#222;color:#eee;display:block;width:12px;height:16px;padding:0 1px 0 3px;position:absolute;top:0;left:0;font-size:16px;line-height:1!important;cursor:pointer;z-index:10001;-moz-transition:.25s all ease-in-out;-webkit-transition:.25s all ease-in-out;-o-transition:.25s all ease-in-out;transition:.25s all ease-in-out}#ff-toggle sup{font-size:13px;line-height:1!important;vertical-align:super;display:none}.open #ff-toggle sup{display:inline}#ff-toggle:hover{color:#fff;background-color:#555}.open #ff-toggle{width:auto;height:32px;font-size:32px;padding:0 3px}#ff-drop form{background:0;color:inherit;float:none}#ff-drop h6{font-size:13px;border-bottom:1px solid #aaa;margin:0 0 6px!important;padding:0!important;text-indent:0!important;float:none!important;height:1.5em!important;white-space:nowrap}#ff-drop>div{float:left;width:120px;padding-right:20px;margin:0!important;position:relative}#ff-drop>div.wrap>div{margin-bottom:12px;font-size:11px!important;position:relative}#ff-drop div#ff-selector{width:130px}#ff-drop div#ff-font-family{width:240px}#ff-selector p{font-size:9px!important;line-height:1.2!important;margin:1em 0 0!important;padding:0!important}#ff-controls{position:absolute!important;bottom:60px;left:65px;width:55px!important;height:60px;margin:0!important;padding:0!important}#ff-controls div{position:absolute;font-size:20px;width:1em;height:1em;color:#555;min-width:inherit!important;min-height:inherit!important;padding:0;margin:0;float:none;text-align:center}#ff-controls>div,.ff-toggler>span,#family-custom-add{font-family:sans-serif!important;font-weight:normal!important;-webkit-user-select:none;-moz-user-select:none;user-select:none;cursor:pointer}#ff-controls div:hover{color:#000}#ff-controls .up{left:1em;top:0}#ff-controls .down{left:1em;bottom:0}#ff-controls .left{left:0;top:1em}#ff-controls .right{right:-.25em;top:1em}#ff-drop #ff-font-family ul{float:left;width:110px;padding-right:5px}#ff-drop #ff-font-family ul#ff-font-family-sans{padding-right:10px;width:115px}#ff-drop ol li{list-style:none outside}#ff-drop ol,#ff-drop ul{margin:0;padding:0}#ff-drop li{font-size:11px!important;\ margin:0!important;padding:0!important;list-style:none outside none!important;text-indent:0!important;height:auto!important}#ff-drop li.core{margin-bottom:4px!important;padding:0!important}#ff-drop ul li:hover{cursor:pointer;background-color:#e6e6e6!important}#ff-drop ul li.family-custom{margin:12px 0 0!important}#ff-drop ul li.family-custom:hover{cursor:default;background:none!important}#family-custom-add{display:inline-block;color:#aaa;line-height:1!important;font-size:15px!important;color:#666!important;vertical-align:top;padding:1px 3px 3px}#family-custom-add:hover,#family-custom-add:focus{background-color:#555!important;color:#fff!important}#family-custom{width:85px}#ff-drop ol input[type=radio]{margin-left:-5px;width:auto!important}#ff-blah{width:100px;margin-left:5px}#ff-drop ol label{margin-left:5px;display:inline!important}#ff-drop>#ff-credit{position:absolute;bottom:21px;left:32px;font-size:9px;margin:0!important}#designer-plus a{color:#4c0003!important;text-decoration:underline!important;border:0!important}#designer-plus a:hover{color:#a60007!important}#ff-drop>#ff-clear{position:absolute;bottom:0;right:0;padding:5px 5px 0!important;text-decoration:line-through;opacity:.1;font-size:21px;margin:0!important;width:auto!important}#ff-clear:hover{opacity:1;cursor:pointer}#ff-font-drop{font-size:11px!important;background-color:#e6e6e6;padding:15px 0;text-align:center;border:1px solid #aaa;margin-bottom:6px}#ff-font-drop.dropzone{background-color:#fff;border-color:#111}#ff-drop select{width:105px!important;margin-left:15px!important}#ff-google-webfonts select{width:99%!important;margin:0!important}#ff-drop select option{font-size:10px!important}#ff-drop .ff-hidden{display:none}#ff-drop .ff-clickable{cursor:pointer;position:relative;z-index:2}#ff-font-family h6 span{text-transform:uppercase!important;font-size:75%;font-weight:normal!important;color:#111!important;letter-spacing:.02em;line-height:1;display:inline-block}#ff-font-family h6 .ff-active{color:#aaa!important}#ff-font-family .ff-custom{padding:0 6px;border-right:1px solid #bbb;margin-right:6px}#ff-badges{position:absolute;right:14px;top:0;z-index:14px}#ff-badges>img{padding:0 4px 0 0!important;margin:0!important;border:0!important;width:16px!important;height:16px!important}#ff-drop #ff-font-family #ff-font-family-custom{width:100%;-webkit-column-count:2;-moz-column-count:2;column-count:2;-webkit-column-gap:12px;-moz-column-gap:12px;column-gap:12px}.ff-toggler{position:absolute;height:20px;top:27px;left:-4px}.ff-toggler span{position:absolute;display:block;left:0;top:0;height:8px;width:8px;line-height:1!important;font-size:8px!important;text-align:center;color:#aaa!important;padding:2px 4px!important}.ff-toggler span:hover{color:#333!important}.ff-toggler span.ff-down{top:auto;bottom:0}#ff-drop [data-ff=fontFamily] li{height:1.5em!important;overflow:hidden;text-overflow:ellipsis}.colorpicker{width:356px;height:176px;overflow:hidden;position:absolute;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_background.png);font-family:Arial,Helvetica,sans-serif;display:none;z-index:11000}.colorpicker_color{width:150px;height:150px;left:14px;top:13px;position:absolute;background:#f00;overflow:hidden;cursor:crosshair}.colorpicker_color div{position:absolute;top:0;left:0;width:150px;height:150px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_overlay.png)}.colorpicker_color div div{position:absolute;top:0;left:0;width:11px;height:11px;overflow:hidden;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_select.gif);margin:-5px 0 0 -5px}.colorpicker_hue{position:absolute;top:13px;left:171px;width:35px;height:150px;cursor:n-resize}.colorpicker_hue div{position:absolute;width:35px;height:9px;overflow:hidden;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_indic.gif) left top;margin:-4px 0 0 0;left:0}.colorpicker_new_color{position:absolute;width:60px;height:30px;left:213px;top:13px;background:#f00}.colorpicker_current_color{position:absolute;width:60px;height:30px;left:283px;top:13px;background:#f00}.colorpicker input{background-color:transparent;border:1px solid transparent;position:absolute;font-size:10px;font-family:Arial,Helvetica,sans-serif;color:#898989;top:4px;right:11px;text-align:right;margin:0;padding:0;height:11px}.colorpicker_hex{position:absolute;width:72px;height:22px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hex.png) top;left:212px;top:142px}.colorpicker_hex input{right:6px}.colorpicker_field{height:22px;width:62px;background-position:top;position:absolute}.colorpicker_field span{position:absolute;width:12px;height:22px;overflow:hidden;top:0;right:0;cursor:n-resize}.colorpicker_rgb_r{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_rgb_r.png);top:52px;left:212px}.colorpicker_rgb_g{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_rgb_g.png);top:82px;left:212px}.colorpicker_rgb_b{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_rgb_b.png);top:112px;left:212px}.colorpicker_hsb_h{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hsb_h.png);top:52px;left:282px}.colorpicker_hsb_s{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hsb_s.png);top:82px;left:282px}.colorpicker_hsb_b{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hsb_b.png);top:112px;left:282px}.colorpicker_submit{position:absolute;width:22px;height:22px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_submit.png) top;left:322px;top:142px;overflow:hidden}.colorpicker_focus{background-position:center}.colorpicker_hex.colorpicker_focus{background-position:bottom}.colorpicker_submit.colorpicker_focus{background-position:bottom}.colorpicker_slider{background-position:bottom}.colorSelector{position:relative;width:36px;height:36px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/select.png)}.colorSelector div{position:absolute;top:3px;left:3px;width:30px;height:30px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/select.png) center}",
@@ -70,10 +69,10 @@
 		}
 
 		body = $("body");
-		$("head").append('<style id="designer-plus-stylesheet" type="text/css" media="screen">'+fontFriend.css+'</style>');
+		$("head").append('<style id="designer-plus-stylesheet" type="text/css" media="screen">'+designerPlus.css+'</style>');
 		body.append("<div id='designer-plus'></div>");
-		$("#designer-plus").html(fontFriend.html).addClass("open");
-		$("#ff-credit").append("<span> "+fontFriend.version+"</span>");
+		$("#designer-plus").html(designerPlus.html).addClass("open");
+		$("#ff-credit").append("<span> "+designerPlus.version+"</span>");
 
 		addBehaviours();
 		customFamilyDefinitionsCheck();
@@ -91,11 +90,11 @@
 		success = function(data){
 			if ( data.kind === "webfonts#webfontList") {
 				$.each(data.items, function(index, value) {
-					if ( $.inArray(value.family, fontFriend.existingGoogleFamilies) !== -1 ) {
+					if ( $.inArray(value.family, designerPlus.existingGoogleFamilies) !== -1 ) {
 						value.family = '✓ '+value.family;
 					}
 					else {
-						fontFriend.googleFamilies[value.family] = value.variants;
+						designerPlus.googleFamilies[value.family] = value.variants;
 					}
 					gFontList.push(value.family);
 				});
@@ -138,11 +137,11 @@
 			base = "http://fonts.googleapis.com/css?family=",
 			suffix, url;
 
-			if ( val === '0' || ! fontFriend.googleFamilies[val] ) {
+			if ( val === '0' || ! designerPlus.googleFamilies[val] ) {
 				return;
 			}
 
-			suffix = ':' + fontFriend.googleFamilies[val].join(',');
+			suffix = ':' + designerPlus.googleFamilies[val].join(',');
 			url = base + apiName + suffix;
 
 			$('<link rel="stylesheet" type="text/css" href="'+url+'" >').appendTo("head");
@@ -151,7 +150,7 @@
 			$("#ff-font-family-custom").find("li:last").click();
 			
 			// so we don't add it again later
-			delete fontFriend.googleFamilies[val];
+			delete designerPlus.googleFamilies[val];
 	}
 
 	function maybeAddEmbeddedFonts() {
@@ -192,39 +191,39 @@
 
 	function customFamilyDefinitionsCheck() {
 		/**
-		 * We can define a custom family list with the fontFriendFamilies JS array/object
+		 * We can define a custom family list with the designerPlusFamilies JS array/object
 		 * or with the data-ff-families attribute on the <body> element (comma separated).
 		 *
 		 */
-		if ( typeof(fontFriendFamilies) !== undef ) {
-			fontFriend.customFamilies = fontFriendFamilies;
+		if ( typeof(designerPlusFamilies) !== undef ) {
+			designerPlus.customFamilies = designerPlusFamilies;
 			// not an array. It must be an object
-			if ( ! $.isArray(fontFriend.customFamilies)) {
+			if ( ! $.isArray(designerPlus.customFamilies)) {
 				var fffTemp = [];
-				$.each( fontFriend.customFamilies, function(index, value) {
+				$.each( designerPlus.customFamilies, function(index, value) {
 					fffTemp.push(index);
 				});
-				fontFriend.customFamilies = fffTemp;
-				fontFriend.customFamilyMap = fontFriendFamilies;
+				designerPlus.customFamilies = fffTemp;
+				designerPlus.customFamilyMap = designerPlusFamilies;
 			}
 		}
 		else if ( body.attr("data-ff-families") ) {
-			fontFriend.customFamilies = body.attr("data-ff-families").split(',');
+			designerPlus.customFamilies = body.attr("data-ff-families").split(',');
 		}
 	}
 
 	function webfontSpecimenCheck() {
 		// on Web Font Specimen?
-		fontFriend.wfs = ( window.location.href == "http://webfontspecimen.com/demo/" );
-		fontFriend.wfsName = ( fontFriend.wfs ) ? $("h1, .bodysize tr:first-child th:first-child") : false;
+		designerPlus.wfs = ( window.location.href == "http://webfontspecimen.com/demo/" );
+		designerPlus.wfsName = ( designerPlus.wfs ) ? $("h1, .bodysize tr:first-child th:first-child") : false;
 		// or, on Waves Web Font Specimen?
-		if ( ! fontFriend.wfs && $("body").attr("id") == 'Waves-web-font-specimen' ) {
-			fontFriend.wfs = true;
-			fontFriend.wfsName = $("h1, .bodysize tr:first-child th.base");
+		if ( ! designerPlus.wfs && $("body").attr("id") == 'Waves-web-font-specimen' ) {
+			designerPlus.wfs = true;
+			designerPlus.wfsName = $("h1, .bodysize tr:first-child th.base");
 		}
-		if ( fontFriend.wfs ) {
-			fontFriend.wfsOriginalName = $("h1").text();
-			fontFriend.wfsTitle = $("title").text();
+		if ( designerPlus.wfs ) {
+			designerPlus.wfsOriginalName = $("h1").text();
+			designerPlus.wfsTitle = $("title").text();
 		}
 	}
 
@@ -281,7 +280,7 @@
 		});
 		if ( families.length > 0 ) {
 			addCustomFontList(families, 'www.google.com');
-			fontFriend.existingGoogleFamilies = families;
+			designerPlus.existingGoogleFamilies = families;
 		}
 	}
 
@@ -319,7 +318,7 @@
 		if( ! data.errors ) {
 			var fontList = [];
 			$.each(data.kit.families, function(i,family){
-				fontFriend.customFamilyMap[family.name] = family.css_names.join(',');
+				designerPlus.customFamilyMap[family.name] = family.css_names.join(',');
 				fontList.push(family.name);
 			});
 			addCustomFontList(fontList, "typekit.com");
@@ -395,31 +394,31 @@
 	}
 
 	// Do we have a custom family list?
-	if ( fontFriend.customFamilies ) {
-		addCustomFontList(fontFriend.customFamilies);
+	if ( designerPlus.customFamilies ) {
+		addCustomFontList(designerPlus.customFamilies);
 	}
 
 	function changeFontName(name) {
 		// not webfont specimen? leave.
-		if ( ! fontFriend.wfs )
+		if ( ! designerPlus.wfs )
 			return false;
 
 		// empty call = reset
 		if ( ! name ) {
-			fontFriend.wfsName.text(fontFriend.wfsOriginalName);
-			$("title").text(fontFriend.wfsTitle);
+			designerPlus.wfsName.text(designerPlus.wfsOriginalName);
+			$("title").text(designerPlus.wfsTitle);
 		}
 		else {
-			fontFriend.wfsName.text(name);
-			$("title").text( fontFriend.wfsTitle.replace('Font name', name) );
+			designerPlus.wfsName.text(name);
+			$("title").text( designerPlus.wfsTitle.replace('Font name', name) );
 		}
 	}
 
 
 	function maybeFontStack(fontFamily) {
 		// is it in our map?
-		if ( typeof(fontFriend.customFamilyMap[fontFamily]) !== undef ) {
-			fontFamily = fontFriend.customFamilyMap[fontFamily];
+		if ( typeof(designerPlus.customFamilyMap[fontFamily]) !== undef ) {
+			fontFamily = designerPlus.customFamilyMap[fontFamily];
 		}
 		// add monospace as a fallback in the stack
 		return fontFamily + ",monospace";
@@ -532,14 +531,14 @@
 		// reuse later
 		var ff = $("#designer-plus");
 
-		fontFriend.width = ff.outerWidth();
-		fontFriend.height = ff.outerHeight();
+		designerPlus.width = ff.outerWidth();
+		designerPlus.height = ff.outerHeight();
 
 		// open and close animations
 		$("#ff-toggle").toggle(function() {
 			ff.removeClass("open").animate({height:16, width:16},100);
 		}, function() {
-			ff.addClass("open").animate({height:fontFriend.height, width:fontFriend.width},100);
+			ff.addClass("open").animate({height:designerPlus.height, width:designerPlus.width},100);
 		});
 
 		// the main attraction: change that font
