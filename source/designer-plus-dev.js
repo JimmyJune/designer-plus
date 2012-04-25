@@ -715,6 +715,7 @@
 	}
 	
 	function colorPicker() {
+		alert("called");
 
 		var ColorPicker = function () {			
 			var
