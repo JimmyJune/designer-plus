@@ -15,16 +15,16 @@
  *
 */
 
-(function(window, document){
+(function(window, document) {
 	
-	var $, body, jqInterval,
+	var $, body, jQueryAddedInterval,
 	undef = 'undefined',
 	designerPlus = {
 		version: "0.1",
 		// style info
 		css: "#designer-plus{overflow:hidden;position:fixed;bottom:0;left:30px;background-color:#fff;background-color:rgba(255,255,255,0.93);width:740px;color:#222;-webkit-box-shadow:1px 1px 5px rgba(0,0,0,.3);-moz-box-shadow:1px 1px 5px rgba(0,0,0,.3);box-shadow:1px 1px 5px rgba(0,0,0,.3);z-index:10000;text-align:left;height:400px}#designer-plus,#ff-drop h6,#ff-drop li{line-height:1.5!important}#ff-drop{padding:12px 12px 12px 36px}#ff-toggle{background-color:#222;color:#eee;display:block;width:12px;height:16px;padding:0 1px 0 3px;position:absolute;top:0;left:0;font-size:16px;line-height:1!important;cursor:pointer;z-index:10001;-moz-transition:.25s all ease-in-out;-webkit-transition:.25s all ease-in-out;-o-transition:.25s all ease-in-out;transition:.25s all ease-in-out}#ff-toggle sup{font-size:13px;line-height:1!important;vertical-align:super;display:none}.open #ff-toggle sup{display:inline}#ff-toggle:hover{color:#fff;background-color:#555}.open #ff-toggle{width:auto;height:32px;font-size:32px;padding:0 3px}#ff-drop form{background:0;color:inherit;float:none}#ff-drop h6{font-size:13px;border-bottom:1px solid #aaa;margin:0 0 6px!important;padding:0!important;text-indent:0!important;float:none!important;height:1.5em!important;white-space:nowrap}#ff-drop>div{float:left;width:120px;padding-right:20px;margin:0!important;position:relative}#ff-drop>div.wrap>div{margin-bottom:12px;font-size:11px!important;position:relative}#ff-drop div#ff-selector{width:130px}#ff-drop div#ff-font-family{width:240px}#ff-selector p{font-size:9px!important;line-height:1.2!important;margin:1em 0 0!important;padding:0!important}#ff-controls{position:absolute!important;bottom:60px;left:65px;width:55px!important;height:60px;margin:0!important;padding:0!important}#ff-controls div{position:absolute;font-size:20px;width:1em;height:1em;color:#555;min-width:inherit!important;min-height:inherit!important;padding:0;margin:0;float:none;text-align:center}#ff-controls>div,.ff-toggler>span,#family-custom-add{font-family:sans-serif!important;font-weight:normal!important;-webkit-user-select:none;-moz-user-select:none;user-select:none;cursor:pointer}#ff-controls div:hover{color:#000}#ff-controls .up{left:1em;top:0}#ff-controls .down{left:1em;bottom:0}#ff-controls .left{left:0;top:1em}#ff-controls .right{right:-.25em;top:1em}#ff-drop #ff-font-family ul{float:left;width:110px;padding-right:5px}#ff-drop #ff-font-family ul#ff-font-family-sans{padding-right:10px;width:115px}#ff-drop ol li{list-style:none outside}#ff-drop ol,#ff-drop ul{margin:0;padding:0}#ff-drop li{font-size:11px!important;\ margin:0!important;padding:0!important;list-style:none outside none!important;text-indent:0!important;height:auto!important}#ff-drop li.core{margin-bottom:4px!important;padding:0!important}#ff-drop ul li:hover{cursor:pointer;background-color:#e6e6e6!important}#ff-drop ul li.family-custom{margin:12px 0 0!important}#ff-drop ul li.family-custom:hover{cursor:default;background:none!important}#family-custom-add{display:inline-block;color:#aaa;line-height:1!important;font-size:15px!important;color:#666!important;vertical-align:top;padding:1px 3px 3px}#family-custom-add:hover,#family-custom-add:focus{background-color:#555!important;color:#fff!important}#family-custom{width:85px}#ff-drop ol input[type=radio]{margin-left:-5px;width:auto!important}#ff-blah{width:100px;margin-left:5px}#ff-drop ol label{margin-left:5px;display:inline!important}#ff-drop>#ff-credit{position:absolute;bottom:21px;left:32px;font-size:9px;margin:0!important}#designer-plus a{color:#4c0003!important;text-decoration:underline!important;border:0!important}#designer-plus a:hover{color:#a60007!important}#ff-drop>#ff-clear{position:absolute;bottom:0;right:0;padding:5px 5px 0!important;text-decoration:line-through;opacity:.1;font-size:21px;margin:0!important;width:auto!important}#ff-clear:hover{opacity:1;cursor:pointer}#ff-font-drop{font-size:11px!important;background-color:#e6e6e6;padding:15px 0;text-align:center;border:1px solid #aaa;margin-bottom:6px}#ff-font-drop.dropzone{background-color:#fff;border-color:#111}#ff-drop select{width:105px!important;margin-left:15px!important}#ff-google-webfonts select{width:99%!important;margin:0!important}#ff-drop select option{font-size:10px!important}#ff-drop .ff-hidden{display:none}#ff-drop .ff-clickable{cursor:pointer;position:relative;z-index:2}#ff-font-family h6 span{text-transform:uppercase!important;font-size:75%;font-weight:normal!important;color:#111!important;letter-spacing:.02em;line-height:1;display:inline-block}#ff-font-family h6 .ff-active{color:#aaa!important}#ff-font-family .ff-custom{padding:0 6px;border-right:1px solid #bbb;margin-right:6px}#ff-badges{position:absolute;right:14px;top:0;z-index:14px}#ff-badges>img{padding:0 4px 0 0!important;margin:0!important;border:0!important;width:16px!important;height:16px!important}#ff-drop #ff-font-family #ff-font-family-custom{width:100%;-webkit-column-count:2;-moz-column-count:2;column-count:2;-webkit-column-gap:12px;-moz-column-gap:12px;column-gap:12px}.ff-toggler{position:absolute;height:20px;top:27px;left:-4px}.ff-toggler span{position:absolute;display:block;left:0;top:0;height:8px;width:8px;line-height:1!important;font-size:8px!important;text-align:center;color:#aaa!important;padding:2px 4px!important}.ff-toggler span:hover{color:#333!important}.ff-toggler span.ff-down{top:auto;bottom:0}#ff-drop [data-ff=fontFamily] li{height:1.5em!important;overflow:hidden;text-overflow:ellipsis}.colorpicker{width:356px;height:176px;overflow:hidden;position:absolute;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_background.png);font-family:Arial,Helvetica,sans-serif;display:none;z-index:11000}.colorpicker_color{width:150px;height:150px;left:14px;top:13px;position:absolute;background:#f00;overflow:hidden;cursor:crosshair}.colorpicker_color div{position:absolute;top:0;left:0;width:150px;height:150px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_overlay.png)}.colorpicker_color div div{position:absolute;top:0;left:0;width:11px;height:11px;overflow:hidden;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_select.gif);margin:-5px 0 0 -5px}.colorpicker_hue{position:absolute;top:13px;left:171px;width:35px;height:150px;cursor:n-resize}.colorpicker_hue div{position:absolute;width:35px;height:9px;overflow:hidden;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_indic.gif) left top;margin:-4px 0 0 0;left:0}.colorpicker_new_color{position:absolute;width:60px;height:30px;left:213px;top:13px;background:#f00}.colorpicker_current_color{position:absolute;width:60px;height:30px;left:283px;top:13px;background:#f00}.colorpicker input{background-color:transparent;border:1px solid transparent;position:absolute;font-size:10px;font-family:Arial,Helvetica,sans-serif;color:#898989;top:4px;right:11px;text-align:right;margin:0;padding:0;height:11px}.colorpicker_hex{position:absolute;width:72px;height:22px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hex.png) top;left:212px;top:142px}.colorpicker_hex input{right:6px}.colorpicker_field{height:22px;width:62px;background-position:top;position:absolute}.colorpicker_field span{position:absolute;width:12px;height:22px;overflow:hidden;top:0;right:0;cursor:n-resize}.colorpicker_rgb_r{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_rgb_r.png);top:52px;left:212px}.colorpicker_rgb_g{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_rgb_g.png);top:82px;left:212px}.colorpicker_rgb_b{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_rgb_b.png);top:112px;left:212px}.colorpicker_hsb_h{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hsb_h.png);top:52px;left:282px}.colorpicker_hsb_s{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hsb_s.png);top:82px;left:282px}.colorpicker_hsb_b{background-image:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_hsb_b.png);top:112px;left:282px}.colorpicker_submit{position:absolute;width:22px;height:22px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/colorpicker_submit.png) top;left:322px;top:142px;overflow:hidden}.colorpicker_focus{background-position:center}.colorpicker_hex.colorpicker_focus{background-position:bottom}.colorpicker_submit.colorpicker_focus{background-position:bottom}.colorpicker_slider{background-position:bottom}.colorSelector{position:relative;width:36px;height:36px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/select.png)}.colorSelector div{position:absolute;top:3px;left:3px;width:30px;height:30px;background:url(https://raw.github.com/dpcasady/designer-plus/master/images/select.png) center}",
 		// inserted html. see designer-plus.html for understandable version
-		html: '<div id="ff-drop"><span id="ff-toggle">D<sup>+</sup></span><div id="ff-selector"><h6>Selector</h6><form action="" method="get"><ol><li><input type="radio" name="jq-select" checked="checked" id="jq1"><label for="jq1">body</label></li><li><input type="radio" name="jq-select" id="jq2"><label for="jq2">h1,h2,h3,h4,h5,h6</label></li><li><input type="radio" name="jq-select" id="jq3"><label for="jq3">p</label></li><li><input type="radio" name="jq-select" id="jq4"><input type="text" name="ff-blah" value="roll your own" id="ff-blah"></li></ol></form><p>Roll your own selector using <a href="http://api.jquery.com/category/selectors/">jQuery selectors</a>.</p><p></p><h6>Color</h6><div class="colorSelector"><div style="background-color: #0000ff"></div></div></div><div id="ff-font-family"><h6>Font Family</h6><div id="ff-badges"></div><ul id="ff-font-family-sans" data-ff="fontFamily"><li>Arial</li><li>Verdana</li><li>Tahoma</li><li class="core">Trebuchet MS</li><li>Helvetica</li><li>Helvetica Neue</li><li>Gill Sans</li><li>Century Gothic</li><li>Lucida Grande</li><li>Lucida Sans Unicode</li><li>Calibri</li><li>Corbel</li><li>Candara</li></ul><ul id="ff-font-family-serif" data-ff="fontFamily"><li>Times New Roman</li><li class="core">Georgia</li><li>Times</li><li>Palatino</li><li>Palatino Linotype</li><li>Baskerville</li><li>Hoefler Text</li><li>Garamond</li><li>Constantia</li><li>Cambria</li><li class="family-custom"><input type="text" name="family-custom" value="your font family" id="family-custom"><span id="family-custom-add">+</span></li></ul></div><div class="wrap"><div id="ff-google-webfonts"><h6>Google Web Fonts</h6><div>Loading…</div></div><div id="ff-font-size"><h6>Font Size</h6><select data-ff="fontSize"><option>10</option><option>11</option><option>12</option><option>14</option><option>16</option><option>18</option><option>21</option><option>24</option><option>36</option><option>48</option><option>60</option><option>72</option></select></div><div id="ff-font-weight"><h6>Font Weight</h6><select data-ff="fontWeight"><option>100</option><option>200</option><option>300</option><option value="400" selected>400 (normal)</option><option>500</option><option>600</option><option value="700">700 (bold)</option><option>800</option><option>900</option></select></div><div id="ff-line-height"><h6>Line Height</h6><select data-ff="lineHeight"><option>1</option><option>1.1</option><option>1.2</option><option>1.3</option><option>1.4</option><option selected>1.5</option><option>1.6</option><option>1.75</option><option>2</option><option>2.5</option><option>3</option></select></div><div id="ff-font-style"><h6>Font Style</h6><ul data-ff="fontStyle"><li>italic</li><li>normal</li></ul></div></div><div class="wrap"><div id="ff-font-face"><h6>@font-face</h6><div id="ff-font-drop">Drag a font here.</div><ul data-ff="fontFamily"></ul></div><div id="ff-text-transform"><h6>Text Transform</h6><ul data-ff="textTransform"><li>uppercase</li><li>lowercase</li><li>capitalize</li><li>none</li></ul></div><div id="ff-font-variant"><h6>Font Variant</h6><ul data-ff="fontVariant"><li>small-caps</li><li>normal</li></ul></div></div><div id="ff-controls"><div class="left">&larr;</div><div class="right">&rarr;</div><div class="up">&uarr;</div><div class="down">&darr;</div></div><div id="ff-credit">Waves Designer+</div><div id="ff-clear" title="clear all styles">D<sup>+</sup></div></div>',
+		html: '<div id="ff-drop"><span id="ff-toggle">D<sup>+</sup></span><div id="ff-selector"><h6>Selector</h6><form action="" method="get"><ol><li><input type="radio" name="jq-select" checked="checked" id="jq1"><label for="jq1">body</label></li><li><input type="radio" name="jq-select" id="jq2"><label for="jq2">h1,h2,h3,h4,h5,h6</label></li><li><input type="radio" name="jq-select" id="jq3"><label for="jq3">p</label></li><li><input type="radio" name="jq-select" id="jq4"><input type="text" name="ff-blah" value="roll your own" id="ff-blah"></li></ol></form><p>Roll your own selector using <a href="http://api.jquery.com/category/selectors/">jQuery selectors</a>.</p><p></p><h6>Font Color</h6><p></p><h6>Background Color</h6><p><input type="text" maxlength="6" size="6" class="colorSelector background" value="00ff00"></p><div class="colorSelector background"><div style="background-color: #0000ff"></div></div></div><div id="ff-font-family"><h6>Font Family</h6><div id="ff-badges"></div><ul id="ff-font-family-sans" data-ff="fontFamily"><li>Arial</li><li>Verdana</li><li>Tahoma</li><li class="core">Trebuchet MS</li><li>Helvetica</li><li>Helvetica Neue</li><li>Gill Sans</li><li>Century Gothic</li><li>Lucida Grande</li><li>Lucida Sans Unicode</li><li>Calibri</li><li>Corbel</li><li>Candara</li></ul><ul id="ff-font-family-serif" data-ff="fontFamily"><li>Times New Roman</li><li class="core">Georgia</li><li>Times</li><li>Palatino</li><li>Palatino Linotype</li><li>Baskerville</li><li>Hoefler Text</li><li>Garamond</li><li>Constantia</li><li>Cambria</li><li class="family-custom"><input type="text" name="family-custom" value="your font family" id="family-custom"><span id="family-custom-add">+</span></li></ul></div><div class="wrap"><div id="ff-google-webfonts"><h6>Google Web Fonts</h6><div>Loading…</div></div><div id="ff-font-size"><h6>Font Size</h6><select data-ff="fontSize"><option>10</option><option>11</option><option>12</option><option>14</option><option>16</option><option>18</option><option>21</option><option>24</option><option>36</option><option>48</option><option>60</option><option>72</option></select></div><div id="ff-font-weight"><h6>Font Weight</h6><select data-ff="fontWeight"><option>100</option><option>200</option><option>300</option><option value="400" selected>400 (normal)</option><option>500</option><option>600</option><option value="700">700 (bold)</option><option>800</option><option>900</option></select></div><div id="ff-line-height"><h6>Line Height</h6><select data-ff="lineHeight"><option>1</option><option>1.1</option><option>1.2</option><option>1.3</option><option>1.4</option><option selected>1.5</option><option>1.6</option><option>1.75</option><option>2</option><option>2.5</option><option>3</option></select></div><div id="ff-font-style"><h6>Font Style</h6><ul data-ff="fontStyle"><li>italic</li><li>normal</li></ul></div></div><div class="wrap"><div id="ff-font-face"><h6>@font-face</h6><div id="ff-font-drop">Drag a font here.</div><ul data-ff="fontFamily"></ul></div><div id="ff-text-transform"><h6>Text Transform</h6><ul data-ff="textTransform"><li>uppercase</li><li>lowercase</li><li>capitalize</li><li>none</li></ul></div><div id="ff-font-variant"><h6>Font Variant</h6><ul data-ff="fontVariant"><li>small-caps</li><li>normal</li></ul></div></div><div id="ff-controls"><div class="left">&larr;</div><div class="right">&rarr;</div><div class="up">&uarr;</div><div class="down">&darr;</div></div><div id="ff-credit">Waves Designer+</div><div id="ff-clear" title="clear all styles">D<sup>+</sup></div></div>',
 		// do we have custom families?
 		// used for Typekit-style font stacks
 		customFamiles: false,
@@ -660,43 +660,10 @@
 			.bind("drop", handleDrop);
 	}
 	
-	//Begin color picker code
-	
-	function eye() {
-		var EYE = window.EYE = function() {
+	function colorPickerInit() {		
 
-			var _registered = {
-				init: []
-			};
-			return {
-				init: function() {
-					console.log($);
-					$.each(_registered.init, function(nr, fn){
-						fn.call();
-					});
-				},
-				extend: function(prop) {
-					for (var i in prop) {
-						if (prop[i] != undefined) {
-							this[i] = prop[i];
-						}
-					}
-				},
-				register: function(fn, type) {
-					if (!_registered[type]) {
-						_registered[type] = [];
-					}
-					_registered[type].push(fn);
-				}
-			};
-		}();
-		$(EYE.init);
-	}
-	
-	function colorPickerInit() {
-		var initColorPlus = function() {
-
-			$('.colorSelector').ColorPicker({
+		var initColorPlusFont = function() {
+				$('.colorSelector.font').ColorPicker({
 				color: '#0000ff',
 				onShow: function (colpkr) {
 					$(colpkr).fadeIn(500);
@@ -706,18 +673,96 @@
 					$(colpkr).fadeOut(500);
 					return false;
 				},
-				onChange: function (hsb, hex, rgb) {
-					$('body').css('backgroundColor', '#' + hex);
+				onChange: function (hsb, hex, rgb, selector) {
+					$(selector).css('color', '#' + hex);
 				}
 			});
 		};
-		EYE.register(initColorPlus, 'init');
-	}
-	
-	function colorPicker() {
-		alert("called");
+		EYE.register(initColorPlusFont, 'init');
 
-		var ColorPicker = function () {			
+		var initColorPlusBackground = function() {
+			$('.colorSelector.background').ColorPicker({
+				color: '#0000ff',
+				onShow: function (colpkr) {
+					$(colpkr).fadeIn(500);
+					return false;
+				},
+				onHide: function (colpkr) {
+					$(colpkr).fadeOut(500);
+					return false;
+				},
+				onSubmit: function(hsb, hex, rgb, el) {
+					$(el).val(hex);
+					$(el).ColorPickerHide();
+				},
+				onBeforeShow: function () {
+					//this is called when the color picker is clicked
+					$(this).ColorPickerSetColor(this.value);
+				},
+				onChange: function (hsb, hex, rgb, selector) {
+					$('.test').val(hex);
+					$(selector).css('backgroundColor', '#' + hex);
+				}
+			})
+			.bind('keyup', function(selector) {
+				//this is called when entering a value using the form
+				console.log(selector);
+				$(this).ColorPickerSetColor(this.value);
+				$('body').css('backgroundColor', '#' + this.value);
+			});
+		};
+		EYE.register(initColorPlusBackground, 'init');		
+		
+	}
+
+
+	function eye() {
+
+		var EYE = window.EYE = function() {
+			//create an empty array to hold all color picker initializations
+			var _registered = {
+				initialize: []
+			};
+			return {
+				initialize: function() {
+					//call the initialization function for each type of registered initialization
+					if ( _registered.init == undefined ) {
+						colorPickerInit();
+					}
+					//with bookmarklet we have registered the function
+					if (_registered.init != undefined) {
+						$.each(_registered.init, function(numberRegistered, initColorPlusFunction) {
+							initColorPlusFunction.call();
+						});
+					}
+				},
+				extend: function(prop) {
+					for (var i in prop) {
+						if (prop[i] != undefined) {
+							this[i] = prop[i];
+						}
+					}
+				},
+				register: function(functionName, typeOfFunction) {
+					//add colorPicker initialization function to registered array
+
+					if (!_registered[typeOfFunction]) {
+						_registered[typeOfFunction] = [];
+					}
+					_registered[typeOfFunction].push(functionName);
+
+				}
+			};
+		}();
+		//initialize the color picker
+		colorPickerInit();
+		//run the EYE.initialize funtion 
+		$(EYE.initialize);
+	}
+
+	function colorPicker() {
+
+		var ColorPicker = function () {	
 			var
 				ids = {},
 				inAction,
@@ -803,7 +848,7 @@
 					setSelector(col, cal.get(0));
 					setHue(col, cal.get(0));
 					setNewColor(col, cal.get(0));
-					cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col)]);
+					cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col), currentSelector()]);
 				},
 				blur = function (ev) {
 					var cal = $(this).parent().parent();
@@ -1067,6 +1112,11 @@
 				HSBToHex = function (hsb) {
 					return RGBToHex(HSBToRGB(hsb));
 				},
+				currentSelector = function () {
+					var target = $("#ff-drop ol input:checked").next(),
+						selector = target.text() || target.val();
+					return selector;
+				},
 				restoreOriginal = function () {
 					var cal = $(this).parent();
 					var col = cal.data('colorpicker').origColor;
@@ -1078,8 +1128,10 @@
 					setHue(col, cal.get(0));
 					setNewColor(col, cal.get(0));
 				};
-			return {
-				init: function (opt) {		
+			//gets here
+			return {				
+				//not getting into return with existing $
+				init: function (opt) {	
 					opt = $.extend({}, defaults, opt||{});
 					if (typeof opt.color == 'string') {
 						opt.color = HexToHSB(opt.color);
@@ -1091,14 +1143,14 @@
 						return this;
 					}
 					return this.each(function () {
-						if (!$(this).data('colorpickerId')) {							
+						if (!$(this).data('colorpickerId')) {	
 							var options = $.extend({}, opt);
 							options.origColor = opt.color;
 							var id = 'collorpicker_' + parseInt(Math.random() * 1000);
 							$(this).data('colorpickerId', id);
 							var cal = $(tpl).attr('id', id);
-							alert(cal);
-							
+							if (cal) { 
+							}
 							if (options.flat) {
 								cal.appendTo(this).show();
 							} else {
@@ -1184,16 +1236,15 @@
 				}
 			};
 		}();
-		console.log(ColorPicker);
+
 		$.fn.extend({
 			ColorPicker: ColorPicker.init,
 			ColorPickerHide: ColorPicker.hidePicker,
 			ColorPickerShow: ColorPicker.showPicker,
 			ColorPickerSetColor: ColorPicker.setColor
 		});
-		
 		eye();
-		colorPickerInit();
 	}
-
+	
+	
 }(this, this.document));

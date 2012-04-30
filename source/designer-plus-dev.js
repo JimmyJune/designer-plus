@@ -15,9 +15,9 @@
  *
 */
 
-(function(window, document){
+(function(window, document) {
 	
-	var $, body, jqInterval,
+	var $, body, jQueryAddedInterval,
 	undef = 'undefined',
 	designerPlus = {
 		version: "%version%",
@@ -660,43 +660,10 @@
 			.bind("drop", handleDrop);
 	}
 	
-	//Begin color picker code
-	
-	function eye() {
-		var EYE = window.EYE = function() {
+	function colorPickerInit() {		
 
-			var _registered = {
-				init: []
-			};
-			return {
-				init: function() {
-					console.log($);
-					$.each(_registered.init, function(nr, fn){
-						fn.call();
-					});
-				},
-				extend: function(prop) {
-					for (var i in prop) {
-						if (prop[i] != undefined) {
-							this[i] = prop[i];
-						}
-					}
-				},
-				register: function(fn, type) {
-					if (!_registered[type]) {
-						_registered[type] = [];
-					}
-					_registered[type].push(fn);
-				}
-			};
-		}();
-		$(EYE.init);
-	}
-	
-	function colorPickerInit() {
-		var initColorPlus = function() {
-
-			$('.colorSelector').ColorPicker({
+		var initColorPlusFont = function() {
+				$('.colorSelector.font').ColorPicker({
 				color: '#0000ff',
 				onShow: function (colpkr) {
 					$(colpkr).fadeIn(500);
@@ -706,18 +673,96 @@
 					$(colpkr).fadeOut(500);
 					return false;
 				},
-				onChange: function (hsb, hex, rgb) {
-					$('body').css('backgroundColor', '#' + hex);
+				onChange: function (hsb, hex, rgb, selector) {
+					$(selector).css('color', '#' + hex);
 				}
 			});
 		};
-		EYE.register(initColorPlus, 'init');
-	}
-	
-	function colorPicker() {
-		alert("called");
+		EYE.register(initColorPlusFont, 'init');
 
-		var ColorPicker = function () {			
+		var initColorPlusBackground = function() {
+			$('.colorSelector.background').ColorPicker({
+				color: '#0000ff',
+				onShow: function (colpkr) {
+					$(colpkr).fadeIn(500);
+					return false;
+				},
+				onHide: function (colpkr) {
+					$(colpkr).fadeOut(500);
+					return false;
+				},
+				onSubmit: function(hsb, hex, rgb, el) {
+					$(el).val(hex);
+					$(el).ColorPickerHide();
+				},
+				onBeforeShow: function () {
+					//this is called when the color picker is clicked
+					$(this).ColorPickerSetColor(this.value);
+				},
+				onChange: function (hsb, hex, rgb, selector) {
+					$('.test').val(hex);
+					$(selector).css('backgroundColor', '#' + hex);
+				}
+			})
+			.bind('keyup', function(selector) {
+				//this is called when entering a value using the form
+				console.log(selector);
+				$(this).ColorPickerSetColor(this.value);
+				$('body').css('backgroundColor', '#' + this.value);
+			});
+		};
+		EYE.register(initColorPlusBackground, 'init');		
+		
+	}
+
+
+	function eye() {
+
+		var EYE = window.EYE = function() {
+			//create an empty array to hold all color picker initializations
+			var _registered = {
+				initialize: []
+			};
+			return {
+				initialize: function() {
+					//call the initialization function for each type of registered initialization
+					if ( _registered.init == undefined ) {
+						colorPickerInit();
+					}
+					//with bookmarklet we have registered the function
+					if (_registered.init != undefined) {
+						$.each(_registered.init, function(numberRegistered, initColorPlusFunction) {
+							initColorPlusFunction.call();
+						});
+					}
+				},
+				extend: function(prop) {
+					for (var i in prop) {
+						if (prop[i] != undefined) {
+							this[i] = prop[i];
+						}
+					}
+				},
+				register: function(functionName, typeOfFunction) {
+					//add colorPicker initialization function to registered array
+
+					if (!_registered[typeOfFunction]) {
+						_registered[typeOfFunction] = [];
+					}
+					_registered[typeOfFunction].push(functionName);
+
+				}
+			};
+		}();
+		//initialize the color picker
+		colorPickerInit();
+		//run the EYE.initialize funtion 
+		$(EYE.initialize);
+	}
+
+	function colorPicker() {
+
+		var ColorPicker = function () {	
 			var
 				ids = {},
 				inAction,
@@ -803,7 +848,7 @@
 					setSelector(col, cal.get(0));
 					setHue(col, cal.get(0));
 					setNewColor(col, cal.get(0));
-					cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col)]);
+					cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col), currentSelector()]);
 				},
 				blur = function (ev) {
 					var cal = $(this).parent().parent();
@@ -1067,6 +1112,11 @@
 				HSBToHex = function (hsb) {
 					return RGBToHex(HSBToRGB(hsb));
 				},
+				currentSelector = function () {
+					var target = $("#ff-drop ol input:checked").next(),
+						selector = target.text() || target.val();
+					return selector;
+				},
 				restoreOriginal = function () {
 					var cal = $(this).parent();
 					var col = cal.data('colorpicker').origColor;
@@ -1078,8 +1128,10 @@
 					setHue(col, cal.get(0));
 					setNewColor(col, cal.get(0));
 				};
-			return {
-				init: function (opt) {		
+			//gets here
+			return {				
+				//not getting into return with existing $
+				init: function (opt) {	
 					opt = $.extend({}, defaults, opt||{});
 					if (typeof opt.color == 'string') {
 						opt.color = HexToHSB(opt.color);
@@ -1091,14 +1143,14 @@
 						return this;
 					}
 					return this.each(function () {
-						if (!$(this).data('colorpickerId')) {							
+						if (!$(this).data('colorpickerId')) {	
 							var options = $.extend({}, opt);
 							options.origColor = opt.color;
 							var id = 'collorpicker_' + parseInt(Math.random() * 1000);
 							$(this).data('colorpickerId', id);
 							var cal = $(tpl).attr('id', id);
-							alert(cal);
-							
+							if (cal) { 
+							}
 							if (options.flat) {
 								cal.appendTo(this).show();
 							} else {
@@ -1184,16 +1236,15 @@
 				}
 			};
 		}();
-		console.log(ColorPicker);
+
 		$.fn.extend({
 			ColorPicker: ColorPicker.init,
 			ColorPickerHide: ColorPicker.hidePicker,
 			ColorPickerShow: ColorPicker.showPicker,
 			ColorPickerSetColor: ColorPicker.setColor
 		});
-		
 		eye();
-		colorPickerInit();
 	}
-
+	
+	
 }(this, this.document));
